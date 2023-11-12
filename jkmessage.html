@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diwali Greeting</title>
+</head>
+<body>
+
+<!-- Hidden div to display the message -->
+<div id="diwaliMessage" style="display: none;">
+    <p>Happy Diwali to all my friends and colleagues</p>
+    <p>Please don't click on any suspicious link just like the one you clicked now 📢</p>
+    <p>🪔🪔🪔 JK 🪔🪔🪔</p>
+    <p>Text me and let me know if you have opened this link 😜</p>
+</div>
+
+<!-- Link to show the message on click -->
+<a id="diwaliLink" href="javascript:void(0);" onclick="showDiwaliMessage()">Click here for Diwali Greeting</a>
+
+<script>
+    // Function to show the hidden message
+    function showDiwaliMessage() {
+        // Display the hidden message
+        document.getElementById('diwaliMessage').style.display = 'block';
+
+        // Hide the link after displaying the message
+        document.getElementById('diwaliLink').style.display = 'none';
+    }
+</script>
+
+</body>
+</html>
