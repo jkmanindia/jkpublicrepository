@@ -3,64 +3,125 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Diwali Greeting</title>
+    <title>JK's Secret Santa World</title>
     <style>
         body {
-            font-family: 'Helvetica Neue', Arial, sans-serif;
-            background-color: #f5f5f5;
+            font-family: Arial, sans-serif;
             text-align: center;
-            margin: 20px;
+            margin: 50px;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            margin: 10px;
+        }
+
+        #selectedName {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        #nameList {
+            list-style-type: none;
             padding: 0;
         }
 
-        #diwaliMessage {
-            background-color: #fff;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            max-width: 600px;
-            color: #333;
-            animation: fadeIn 0.8s ease-in-out;
-            margin: 20px auto;
-            line-height: 1.6;
+        #nameList li {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 10px;
+            padding: 10px;
+            border: 1px solid #ccc;
         }
 
-        #diwaliMessage h1 {
-            font-size: 32px;
-            color: #333;
-            font-weight: bold;
-            margin-bottom: 10px;
+        #loginSection {
+            display: none;
         }
 
-        #diwaliMessage p {
-            font-size: 18px;
-            color: #555;
-            margin-bottom: 15px;
-        }
-
-        #diwaliMessage p:last-child {
-            margin-bottom: 0;
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-            }
-            to {
-                opacity: 1;
-            }
+        #adminSection {
+            display: none;
         }
     </style>
 </head>
 <body>
+    <h1>Welcome to JK's Secret Santa World</h1>
+    <div id="loginSection">
+        <label for="password">Enter Password:</label>
+        <input type="password" id="password">
+        <button onclick="login()">Login</button>
+    </div>
+    <div id="adminSection">
+        <label for="newName">Add Player:</label>
+        <input type="text" id="newName">
+        <button onclick="addPlayer()">Add Player</button>
+        <div id="selectedName"></div>
+        <button onclick="rollDice()">Roll the Dice</button>
+        <ul id="nameList"></ul>
+    </div>
 
-<!-- Div to display the message -->
-<div id="diwaliMessage">
-    <h1>Happy Diwali to all my friends and colleagues 🪔</h1>
-    <p>Please don't click on any suspicious link just like the one you clicked now 📢</p>
-    <p>🪔🪔🪔 JK 🪔🪔🪔</p>
-    <p>Text me and let me know if you have opened this link 😜</p>
-</div>
+    <script>
+        const adminPassword = "youradminpassword";
+        let isLoggedIn = false;
+        let names = [];
 
+        function login() {
+            const enteredPassword = document.getElementById("password").value;
+            if (enteredPassword === adminPassword) {
+                isLoggedIn = true;
+                document.getElementById("loginSection").style.display = "none";
+                document.getElementById("adminSection").style.display = "block";
+                updateNameList();
+            } else {
+                alert("Incorrect password. Please try again.");
+            }
+        }
+
+        function addPlayer() {
+            if (isLoggedIn) {
+                const newName = document.getElementById("newName").value;
+                if (newName.trim() !== "") {
+                    names.push(newName);
+                    document.getElementById("newName").value = "";
+                    updateNameList();
+                }
+            } else {
+                alert("You need to log in as admin to add players.");
+            }
+        }
+
+        function rollDice() {
+            if (names.length === 0) {
+                alert("All names have been selected!");
+                return;
+            }
+
+            const randomIndex = Math.floor(Math.random() * names.length);
+            const selectedName = names.splice(randomIndex, 1)[0];
+
+            document.getElementById("selectedName").innerText = `Selected Name: ${selectedName}`;
+            updateNameList();
+        }
+
+        function updateNameList() {
+            const nameListElement = document.getElementById("nameList");
+            nameListElement.innerHTML = "";
+
+            names.forEach(name => {
+                const li = document.createElement("li");
+                li.innerHTML = `${name} <button onclick="removeName('${name}')">Remove</button>`;
+                nameListElement.appendChild(li);
+            });
+        }
+
+        function removeName(name) {
+            const index = names.indexOf(name);
+            if (index !== -1) {
+                names.splice(index, 1);
+                updateNameList();
+            }
+        }
+    </script>
 </body>
 </html>
