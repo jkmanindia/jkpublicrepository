@@ -37,7 +37,7 @@
         }
 
         #loginSection {
-            display: none;
+            display: block;
         }
 
         #adminSection {
@@ -48,9 +48,12 @@
 <body>
     <h1>Welcome to JK's Secret Santa World</h1>
     <div id="loginSection">
-        <label for="password">Enter Password:</label>
-        <input type="password" id="password">
-        <button onclick="login()">Login</button>
+        <button onclick="showLogin()">Enter the Secret Santa World</button>
+        <div id="loginForm" style="display: none;">
+            <label for="password">Enter Password:</label>
+            <input type="password" id="password">
+            <button onclick="login()">Login</button>
+        </div>
     </div>
     <div id="adminSection">
         <label for="newName">Add Player:</label>
@@ -62,15 +65,21 @@
     </div>
 
     <script>
-        const adminPassword = "youradminpassword";
+        const adminPassword = "jkings";
         let isLoggedIn = false;
         let names = [];
+
+        function showLogin() {
+            document.getElementById("loginSection").style.display = "none";
+            document.getElementById("loginForm").style.display = "block";
+        }
 
         function login() {
             const enteredPassword = document.getElementById("password").value;
             if (enteredPassword === adminPassword) {
                 isLoggedIn = true;
                 document.getElementById("loginSection").style.display = "none";
+                document.getElementById("loginForm").style.display = "none";
                 document.getElementById("adminSection").style.display = "block";
                 updateNameList();
             } else {
